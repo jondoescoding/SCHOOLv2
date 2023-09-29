@@ -1,0 +1,47 @@
+# Define the parameters
+n <- 31  # number of trials
+p <- 0.447  # probability of success
+
+# Question 1d
+# Find the probability that X is equal to 17
+x <- 17
+prob <- dbinom(x, size = n, prob = p)
+print(paste("The probability of getting exactly", x, "is", prob))
+
+# Question 1e
+# Find the probability that X is at most 13
+x <- 13
+prob <- pbinom(x, size = n, prob = p)
+print(paste("The probability of getting at most", x, "is", prob))
+
+# Question 1f
+# find the probability that X is bigger than 11
+x <- 11
+prob <- pbinom(x, size = n, prob = p)
+print(paste("The probability that X is bigger than 11 is", prob))
+
+# Question 1g
+# find the probability that X is at least 15
+x <- 15
+prob <- pbinom(x, size = n, prob = p)
+print(paste("The probability that X is at least 15 is", prob))
+
+# Question 1h
+# Give the mean of X, denoted E(X)
+print(paste("Mean:", x <- n * p))
+
+# Question 1i
+# Give the variancce of X
+variance_of_x <- n * p * (1 - p)
+print(variance_of_x)
+
+# Question 1j
+# Give the standard deviation of X
+std_dev <- sqrt(n * p * (1 - p))
+print(std_dev)
+
+# Question 1k
+# Find E(4X + 51.324)
+e_x <- 13.857
+e_4x_plus_51_324 <- 4 * e_x + 51.324  # E(4X + 51.324)
+print(e_4x_plus_51_324)
