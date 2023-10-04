@@ -116,3 +116,50 @@ You may decide what data is returned by this function. However, the string that 
 • Intensity of 130-156 miles per hour is a category 4 hurricane 
 • Intensity of 157 miles, or above is a category 5 hurricane
 """
+def sayDisturbance(disturbance: tuple) -> str:
+    """_summary_
+
+    Args:
+        disturbance (tuple): should accept ONLY tuples from the function makeDistrubance
+
+    Returns:
+        str: the relevant information of the disturbance
+    """
+    # At index location #1 should be the intensity of the disturbance 
+    match disturbance[1]:
+        # Intensity under 55 miles per hour is a Tropical Depression 
+        case _ as intensity if intensity in range(0, 55):
+            return "Intensity under 55 miles per hour is a Tropical Depression"
+        case _ as intensity if intensity in range(55, 95):
+            return "Intensity of 74-95 miles per hour up to and including 70 miles per hour is a storm"
+        case _ as intensity if intensity in range(74, 95):
+            return "Intensity of 74-95 miles per hour is a category 1 hurricane"
+        case _ as intensity if intensity in range(96, 110):
+            return "Intensity of 96-110 miles per hour is a category 2 hurricane"
+        case _ as intensity if intensity in range(111, 129):
+            return "Intensity of 111-129 miles per hour is a category 3 hurricane "
+        case _ as intensity if intensity in range(130, 156):
+            return "Intensity of 130-156 miles per hour is a category 4 hurricane"
+        case _:
+            return "Intensity of 157 miles, or above is a category 5 hurricane"
+        
+def gui():
+    disturbanceList = []
+    option = 0
+    while True:
+        option = int(input("1. Create a new disturbance\n2. Run One Tick\n3. Show All Disturbances\n4. Show All Cities\n5. Display Bulletins\n6. Exit\n\nSelect An option: "))
+        match option:
+            case 1:
+                disturbance = input("\nDisturbance Name: ") 
+                disturbanceList.append(makeDisturbance(disturbance))
+            case 2:
+                pass
+            case 3:
+                for eachDisturbance in disturbanceList:
+                        print(f"Disturbance Name: {eachDisturbance[0]}\nDisturbance Intensity: {eachDisturbance[1]}\nDisturbance Travel Speed: {eachDisturbance[2]}\nDisturbance X Cord: {eachDisturbance[3]}\nDisturbance Y Cord: {eachDisturbance[4]}\n")
+            case 0:
+                exit()
+            case _:
+                print("ERROR")
+if __name__ == "__main__":
+    gui()
