@@ -143,23 +143,50 @@ def sayDisturbance(disturbance: tuple) -> str:
         case _:
             return "Intensity of 157 miles, or above is a category 5 hurricane"
         
+"""
+        Task 6: [12 Marks]
+        Option 1 - Create a new Disturbance is selected the program shall ask the user to enter the name of the next disturbance and shall use the makeDisturbance to create a new tropical disturbance.
+        
+        Option 2 - Run One Tick is selected The program shall update the position of each tropical disturbance (remember each disturbance travels westward) covering one column for every 5 miles per hour that it is travelling.
+        
+        Option 3 - Show All Disturbances is selected, the program shall display a listing of all active disturbances appropriately formatted.
+        
+        Option 4 - Show All Cities is selected, the program shall display a listing of all cities on the map appropriately formatted.
+
+        Option 5 - Display Bulletins is selected, the program shall display a list of cities that are in the same cell (row and column) as a disturbance and issue a bulletin for the city. The bulletin shall give all the information about the disturbance
+        
+        Option 6 - Exit is selected, the program shall stop running.
+"""        
 def gui():
-    disturbanceList = []
+    # Houses all the future disturbances to be created
+    disturbanceMovement = {}
     option = 0
     while True:
-        option = int(input("1. Create a new disturbance\n2. Run One Tick\n3. Show All Disturbances\n4. Show All Cities\n5. Display Bulletins\n6. Exit\n\nSelect An option: "))
+        option = int(input("\n1. Create a new disturbance\n2. Run One Tick\n3. Show All Disturbances\n4. Show All Cities\n5. Display Bulletins\n6. Exit\n\nSelect An option: "))
         match option:
             case 1:
-                disturbance = input("\nDisturbance Name: ") 
-                disturbanceList.append(makeDisturbance(disturbance))
+                disturbance = makeDisturbance(input("\nDisturbance Name: "))
+                # Append the new disturbance to the disturbanceMovement dictionary
+                disturbanceMovement[disturbance[0]] = {
+                    "Disturbance": disturbance,
+                    "Coords": [disturbance[3], disturbance[4]],
+                    "Ticks": disturbance[1] / 5
+                    }
             case 2:
                 pass
             case 3:
-                for eachDisturbance in disturbanceList:
-                        print(f"Disturbance Name: {eachDisturbance[0]}\nDisturbance Intensity: {eachDisturbance[1]}\nDisturbance Travel Speed: {eachDisturbance[2]}\nDisturbance X Cord: {eachDisturbance[3]}\nDisturbance Y Cord: {eachDisturbance[4]}\n")
-            case 0:
+                for eachDisturbance in disturbanceMovement:
+                        print(f"\nDisturbance Name: {disturbanceMovement[eachDisturbance]['Disturbance'][0]}\nDisturbance Intensity: {disturbanceMovement[eachDisturbance]['Disturbance'][1]}\nDisturbance Travel Speed: {disturbanceMovement[eachDisturbance]['Disturbance'][2]}\nDisturbance X Coord: {disturbanceMovement[eachDisturbance]['Disturbance'][3]}\nDisturbance Y Coord: {disturbanceMovement[eachDisturbance]['Disturbance'][4]}")
+            case 4:
+                # this iterates over each key in the given dictionary
+                for eachCity in tenCities.items():
+                    print(f"\nCountry: {eachCity[0]} \nCity Name: {eachCity[1]['capitalCity']}\nRow Number: {eachCity[1]['rowNumber']} \nColumn Number: {eachCity[1]['colNumber']}\n")
+            case 5:
+                pass
+            case 6:
                 exit()
             case _:
-                print("ERROR")
+                print("ERROR: Incorrect number chosen. Please pick a number between 1 -> 6")
+                
 if __name__ == "__main__":
     gui()
