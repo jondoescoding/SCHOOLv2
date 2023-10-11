@@ -170,13 +170,34 @@ def gui():
                 disturbanceMovement[disturbance[0]] = {
                     "Disturbance": disturbance,
                     "Coords": [disturbance[3], disturbance[4]],
-                    "Ticks": disturbance[1] / 5
+                    "Ticks": disturbance[1] // 5
                     }
             case 2:
-                pass
+                # Controls the movement of the disturbance
+                dx = rand.choice([-1, 0, 1])
+                dy = rand.choice([-1, 0, 1])
+
+                for eachDisturbance in disturbanceMovement:
+                    if disturbanceMovement[eachDisturbance]['Ticks'] > 0:
+                        cordsList = disturbanceMovement[eachDisturbance]['Coords']
+                        # Update the coordinates based on the random choices and ticks
+                        updated_x = min(max(cordsList[0] + dx, 0), 13)
+                        updated_y = min(max(cordsList[1] + dy, 0), 8)
+
+                        # Update the disturbance with the new coords
+                        disturbanceMovement[eachDisturbance]['Coords'] = [updated_x, updated_y]
+
+                        # Grabs the total ticks
+                        totalTicks = disturbanceMovement[eachDisturbance]["Ticks"]
+                        # Remove a tick
+                        disturbanceMovement[eachDisturbance]["Ticks"] = totalTicks - 1
+                    else:
+                        # If ticks are 0 or less, remove the disturbance
+                        disturbanceMovement[eachDisturbance].pop()
+
             case 3:
                 for eachDisturbance in disturbanceMovement:
-                        print(f"\nDisturbance Name: {disturbanceMovement[eachDisturbance]['Disturbance'][0]}\nDisturbance Intensity: {disturbanceMovement[eachDisturbance]['Disturbance'][1]}\nDisturbance Travel Speed: {disturbanceMovement[eachDisturbance]['Disturbance'][2]}\nDisturbance X Coord: {disturbanceMovement[eachDisturbance]['Disturbance'][3]}\nDisturbance Y Coord: {disturbanceMovement[eachDisturbance]['Disturbance'][4]}")
+                        print(f"\nDisturbance Name: {disturbanceMovement[eachDisturbance]['Disturbance'][0]}\nDisturbance Intensity: {disturbanceMovement[eachDisturbance]['Disturbance'][1]}\nDisturbance Travel Speed: {disturbanceMovement[eachDisturbance]['Disturbance'][2]}\nDisturbance Coords: {disturbanceMovement[eachDisturbance]['Coords']}\nTicks: {disturbanceMovement[eachDisturbance]['Ticks']}")
             case 4:
                 # this iterates over each key in the given dictionary
                 for eachCity in tenCities.items():
