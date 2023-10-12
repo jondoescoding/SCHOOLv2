@@ -156,54 +156,74 @@ def sayDisturbance(disturbance: tuple) -> str:
         Option 5 - Display Bulletins is selected, the program shall display a list of cities that are in the same cell (row and column) as a disturbance and issue a bulletin for the city. The bulletin shall give all the information about the disturbance
         
         Option 6 - Exit is selected, the program shall stop running.
-"""        
+"""
+
+def displayDisturbance(disturbanceDict: dict) -> str:
+    # checks if there is an entry in the dict
+    if disturbanceDict:
+        # iterates over ALL entries in the dict
+        for eachDisturbance in disturbanceDict:
+            # for each entry in the dict relevant information is printted (name, intensity etc.)
+            print(f"\nDisturbance Name: {disturbanceDict[eachDisturbance]['Disturbance'][0]}\nDisturbance Intensity: {disturbanceDict[eachDisturbance]['Disturbance'][1]}\nDisturbance Travel Speed: {disturbanceDict[eachDisturbance]['Disturbance'][2]}\nDisturbance Coords: {disturbanceDict[eachDisturbance]['Coords']}\nTicks: {disturbanceDict[eachDisturbance]['Ticks']}")
+    # if nothing is found within the dict then a message is printed to alert the user of the error throwm 
+    else: print("ERROR CASE3: No Disturbances Found (Create a disturbance first)")
+
 def gui():
     # Houses all the future disturbances to be created
-    disturbanceMovement = {}
+    disturbanceDict = {}
     option = 0
     while True:
         option = int(input("\n1. Create a new disturbance\n2. Run One Tick\n3. Show All Disturbances\n4. Show All Cities\n5. Display Bulletins\n6. Exit\n\nSelect An option: "))
         match option:
             case 1:
                 disturbance = makeDisturbance(input("\nDisturbance Name: "))
-                # Append the new disturbance to the disturbanceMovement dictionary
-                disturbanceMovement[disturbance[0]] = {
+                # Append the new disturbance to the disturbanceDict dictionary
+                disturbanceDict[disturbance[0]] = {
                     "Disturbance": disturbance,
                     "Coords": [disturbance[3], disturbance[4]],
                     "Ticks": disturbance[1] // 5
                     }
             case 2:
-                # Controls the movement of the disturbance
-                dx = rand.choice([-1, 0, 1])
-                dy = rand.choice([-1, 0, 1])
-
-                for eachDisturbance in disturbanceMovement:
-                    if disturbanceMovement[eachDisturbance]['Ticks'] > 0:
-                        cordsList = disturbanceMovement[eachDisturbance]['Coords']
-                        # Update the coordinates based on the random choices and ticks
-                        updated_x = min(max(cordsList[0] + dx, 0), 13)
-                        updated_y = min(max(cordsList[1] + dy, 0), 8)
-
-                        # Update the disturbance with the new coords
-                        disturbanceMovement[eachDisturbance]['Coords'] = [updated_x, updated_y]
-
-                        # Grabs the total ticks
-                        totalTicks = disturbanceMovement[eachDisturbance]["Ticks"]
-                        # Remove a tick
-                        disturbanceMovement[eachDisturbance]["Ticks"] = totalTicks - 1
-                    else:
-                        # If ticks are 0 or less, remove the disturbance
-                        disturbanceMovement[eachDisturbance].pop()
-
+                # checks if there is an element inside of the dict
+                if disturbanceDict: 
+                    # Controls the movement of the disturbance
+                    dx = rand.choice([-1, 0, 1])
+                    dy = rand.choice([-1, 0, 1])
+                    for eachDisturbance in disturbanceDict:
+                        # checks the total amount of ticks within a disturbance
+                        if disturbanceDict[eachDisturbance]['Ticks'] > 0:
+                            # holds the coords from each disturbance 
+                            cordsList = disturbanceDict[eachDisturbance]['Coords']
+                            # Update the coordinates based on the random choices and ticks
+                            updated_x = min(max(cordsList[0] + dx, 0), 13)
+                            updated_y = min(max(cordsList[1] + dy, 0), 8)
+                            # Update the disturbance with the new coord
+                            disturbanceDict[eachDisturbance]['Coords'] = [updated_x, updated_y]
+                            # Grabs the total ticks
+                            totalTicks = disturbanceDict[eachDisturbance]["Ticks"]
+                            # Remove a tick
+                            disturbanceDict[eachDisturbance]["Ticks"] = totalTicks - 1
+                        else:
+                            # If ticks are 0 or less, remove the disturbance
+                            disturbanceDict.pop(eachDisturbance)
+                else: print("ERROR: Please use option #1 to create a disturbance")
             case 3:
-                for eachDisturbance in disturbanceMovement:
-                        print(f"\nDisturbance Name: {disturbanceMovement[eachDisturbance]['Disturbance'][0]}\nDisturbance Intensity: {disturbanceMovement[eachDisturbance]['Disturbance'][1]}\nDisturbance Travel Speed: {disturbanceMovement[eachDisturbance]['Disturbance'][2]}\nDisturbance Coords: {disturbanceMovement[eachDisturbance]['Coords']}\nTicks: {disturbanceMovement[eachDisturbance]['Ticks']}")
+                displayDisturbance(disturbanceDict=disturbanceDict)
             case 4:
                 # this iterates over each key in the given dictionary
                 for eachCity in tenCities.items():
                     print(f"\nCountry: {eachCity[0]} \nCity Name: {eachCity[1]['capitalCity']}\nRow Number: {eachCity[1]['rowNumber']} \nColumn Number: {eachCity[1]['colNumber']}\n")
             case 5:
-                pass
+                bulletin = [
+                    displayDisturbance(disturbanceDict=eachDisturbance) for eachDisturbance in disturbanceDict
+                    if disturbanceDict and any(
+                        disturbanceDict[eachDisturbance]['Coords'] == [eachCity[1]['rowNumber'], eachCity[1]['colNumber']] for eachCity in tenCities.items()
+                    )]
+                if not bulletin:
+                    print("No disturbances are in any countries.")
+                else:
+                    for item in bulletin:
+                        print("DISTRUBANCE ALERT\n", item)
             case 6:
                 exit()
             case _:
