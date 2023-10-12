@@ -205,6 +205,7 @@ def gui():
                             disturbanceDict[eachDisturbance]["Ticks"] = totalTicks - 1
                         else:
                             # If ticks are 0 or less, remove the disturbance
+                            print("Ticks Completed....Removing disturbance...")
                             disturbanceDict.pop(eachDisturbance)
                 else: print("ERROR: Please use option #1 to create a disturbance")
             case 3:
