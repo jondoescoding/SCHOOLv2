@@ -70,7 +70,7 @@ Write a while loop that asks the user to guess a secret number (e.g., 7). Contin
 """
 def q7():
     secretNum = 7
-    while int((guess := input("Guess a number: "))) != secretNum:
+    while int((guess := input("Guess a number between 1-10: "))) != secretNum:
         print("Try Again!")
     print("Correct")
 print(q7())
