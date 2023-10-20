@@ -63,7 +63,7 @@ tenCities = {
     "Trinidad_Tobago":{
     "capitalCity": "Port Of Spain",
     "rowNumber": 8,
-    "colNumber": 8,
+    "colNumber": 10,
     },
 }
 
@@ -130,15 +130,15 @@ def sayDisturbance(disturbance: tuple) -> str:
         # Intensity under 55 miles per hour is a Tropical Depression 
         case _ as intensity if intensity in range(0, 55):
             return "Intensity under 55 miles per hour is a Tropical Depression"
-        case _ as intensity if intensity in range(55, 95):
-            return "Intensity of 74-95 miles per hour up to and including 70 miles per hour is a storm"
-        case _ as intensity if intensity in range(74, 95):
+        case _ as intensity if intensity in range(55, 74):
+            return "Intensity of 55-73 miles per hour up to and including 70 miles per hour is a storm"
+        case _ as intensity if intensity in range(74, 96):
             return "Intensity of 74-95 miles per hour is a category 1 hurricane"
-        case _ as intensity if intensity in range(96, 110):
+        case _ as intensity if intensity in range(96, 111):
             return "Intensity of 96-110 miles per hour is a category 2 hurricane"
-        case _ as intensity if intensity in range(111, 129):
+        case _ as intensity if intensity in range(111, 130):
             return "Intensity of 111-129 miles per hour is a category 3 hurricane "
-        case _ as intensity if intensity in range(130, 156):
+        case _ as intensity if intensity in range(130, 157):
             return "Intensity of 130-156 miles per hour is a category 4 hurricane"
         case _:
             return "Intensity of 157 miles, or above is a category 5 hurricane"
