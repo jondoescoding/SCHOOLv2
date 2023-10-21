@@ -13,62 +13,62 @@ Create a module named caribbean.py that includes the names of up to ten cities f
 tenCities = {
     "Jamaica": {
     "capitalCity": "Kingston",
-    "x_coord": 4,
-    "y_coord": 4,
+    "x_coord": 13,
+    "y_coord": 1,
     },
 
     "Haiti":{
     "capitalCity": "Port-Au-Prince",
-    "x_coord": 6,
-    "y_coord": 4,
+    "x_coord": 13,
+    "y_coord": 2,
     },
 
     "DR":{
     "capitalCity": "Santo Domingo",
-    "x_coord": 7,
-    "y_coord": 4,
+    "x_coord": 13,
+    "y_coord": 3,
     },
 
     "Puerto Rico":{
     "capitalCity": "San Juan",
-    "x_coord": 8,
+    "x_coord": 13,
     "y_coord": 4,
     },
 
     "Cuba":{
     "capitalCity": "Havana",
-    "x_coord": 2,
-    "y_coord": 2,
+    "x_coord": 13,
+    "y_coord": 5,
     },
 
     "Bahamas":{
     "capitalCity": "Nassau",
-    "x_coord": 4,
-    "y_coord": 1,
+    "x_coord": 13,
+    "y_coord": 5,
     },
 
     "Costa Rica":{
     "capitalCity": "San Jose",
-    "x_coord": 1,
-    "y_coord": 8,
+    "x_coord": 13,
+    "y_coord": 6,
     },
 
     "Panama":{
     "capitalCity": "Panama City",
-    "x_coord": 3,
-    "y_coord": 8,
+    "x_coord": 13,
+    "y_coord": 7,
     },
 
     "Venezuela":{
     "capitalCity": "Caracas",
-    "x_coord": 8,
-    "y_coord": 8,
+    "x_coord": 13,
+    "y_coord": 1,
     },
 
     "Trinidad_Tobago":{
     "capitalCity": "Port Of Spain",
-    "x_coord": 10,
-    "y_coord": 8,
+    "x_coord": 13,
+    "y_coord": 3,
     },
 }
 
@@ -134,17 +134,17 @@ def sayDisturbance(disturbance: tuple) -> str:
     match disturbance[1]:
         # Intensity under 55 miles per hour is a Tropical Depression 
         case _ as intensity if intensity in range(0, 55):
-            return "Intensity under 55 miles per hour is a Tropical Depression"
+            return f"Tropical disturbance {disturbance[0]} has an intensity below 55 miles per hour and classifies as a Tropical Drepression"
         case _ as intensity if intensity in range(55, 74):
-            return "Intensity of 55-73 miles per hour up to and including 70 miles per hour is a storm"
+            return f"Tropical disturbance {disturbance[0]} has an intensity 55-73 miles per hour and classifies as a Storm"
         case _ as intensity if intensity in range(74, 96):
-            return "Intensity of 74-95 miles per hour is a category 1 hurricane"
+            return f"Tropical disturbance {disturbance[0]} has an intensity between 74-95 miles per hour and classifies as a Category 1 hurricane" 
         case _ as intensity if intensity in range(96, 111):
-            return "Intensity of 96-110 miles per hour is a category 2 hurricane"
+            return f"Tropical disturbance {disturbance[0]} has an intensity between 96-110 miles per hour and classifies as a Category 2 hurricane" 
         case _ as intensity if intensity in range(111, 130):
-            return "Intensity of 111-129 miles per hour is a category 3 hurricane "
+            return f"Tropical disturbance {disturbance[0]} has an intensity between 111-129 miles per hour and classifies as a Category 3 hurricane"
         case _ as intensity if intensity in range(130, 157):
-            return "Intensity of 130-156 miles per hour is a category 4 hurricane"
+            return f"Tropical disturbance {disturbance[0]} has an intensity between 130-156 miles per hour and classifies as a Category 4 hurricane"
         case _:
             return "Intensity of 157 miles, or above is a category 5 hurricane"
         
@@ -163,26 +163,34 @@ def sayDisturbance(disturbance: tuple) -> str:
         Option 6 - Exit is selected, the program shall stop running.
 """
 
-def displayDisturbance(disturbanceDict: dict) -> str:
-    # checks if there is an entry in the dict
-    if disturbanceDict:
-        # iterates over ALL entries in the dict
-        for eachDisturbance in disturbanceDict:
-            # for each entry in the dict relevant information is printted (name, intensity etc.)
-            print(f"\nDisturbance Name: {disturbanceDict[eachDisturbance]['Disturbance'][0]}\nDisturbance Intensity: {disturbanceDict[eachDisturbance]['Disturbance'][1]}\nDisturbance Travel Speed: {disturbanceDict[eachDisturbance]['Disturbance'][2]}\nDisturbance Coords: {disturbanceDict[eachDisturbance]['Coords']}\nTicks: {disturbanceDict[eachDisturbance]['Ticks']}")
-    # if nothing is found within the dict then a message is printed to alert the user of the error throwm 
-    else: print("ERROR CASE3: No Disturbances Found (Create a disturbance first)")
+def makeCities():
+    cityName = input("Enter City Name: ")
+    capitalCity = input("Enter Capital City: ")
+    x_coordinate = input("Enter x coordinate: ")
+    y_coordinate = input("Enter y coordinate: ")
+    city_info = {
+        "capitalCity": capitalCity,
+        "x_coord": x_coordinate,
+        "y_coord": y_coordinate
+    }
+
+    # Create the outer dictionary and return it
+    cityDict = {
+        cityName: city_info
+    }
+    return cityDict
 
 def gui():
     # Houses all the future disturbances to be created
     disturbanceDict = {}
     option = 0
     while True:
-        option = int(input("\n1. Create a new disturbance\n2. Run One Tick\n3. Show All Disturbances\n4. Show All Cities\n5. Display Bulletins\n6. Exit\n\nSelect An option: "))
+        option = int(input("\n0. Create A City \n1. Create a new disturbance\n2. Run One Tick\n3. Show All Disturbances\n4. Show All Cities\n5. Display Bulletins\n6. Exit\n\nSelect An option: "))
         match option:
             #
             case 0:
-                pass
+                newCity = makeCities()
+                tenCities.update(newCity)
             case 1:
                 disturbance = makeDisturbance(input("\nDisturbance Name: "))
                 # Append the new disturbance to the disturbanceDict dictionary
@@ -192,6 +200,7 @@ def gui():
                     "Ticks": disturbance[2] // 5,
                     "Off-Canvas": False # this is this to handle if the disturbance comes off the canvas 
                     }
+                print("A disturbance was created!\n")
             case 2:
                 if disturbanceDict:
                     # Controls the movement of the disturbance
@@ -210,22 +219,26 @@ def gui():
                 else: 
                     print("ERROR: No Disturbace Detected. Please use option #1 to create a disturbance")
             case 3:
-                displayDisturbance(disturbanceDict=disturbanceDict)
+                # checks if there is an entry in the dict
+                if disturbanceDict:
+                    # iterates over ALL entries in the dict
+                    for eachDisturbance in disturbanceDict:
+                        # for each entry in the dict relevant information is printted (name, intensity etc.)
+                        print(f"\nDisturbance Name: {disturbanceDict[eachDisturbance]['Disturbance'][0]}\nDisturbance Intensity: {disturbanceDict[eachDisturbance]['Disturbance'][1]}\nDisturbance Travel Speed: {disturbanceDict[eachDisturbance]['Disturbance'][2]}\nDisturbance Coords: {disturbanceDict[eachDisturbance]['Coords']}\nTicks: {disturbanceDict[eachDisturbance]['Ticks']}")
+                        # if nothing is found within the dict then a message is printed to alert the user of the error throwm 
+                else: 
+                    print("ERROR CASE3: No Disturbances Found (Create a disturbance first)")
             case 4:
                 # this iterates over each key in the given dictionary
                 for eachCity in tenCities.items():
                     print(f"\nCountry: {eachCity[0]} \nCity Name: {eachCity[1]['capitalCity']}\nRow Number: {eachCity[1]['y_coord']} \nColumn Number: {eachCity[1]['x_coord']}\n")
             case 5:
-                bulletin = [
-                    displayDisturbance(disturbanceDict=eachDisturbance) for eachDisturbance in disturbanceDict
-                    if disturbanceDict and 
-                        disturbanceDict[eachDisturbance]['Coords'] == [eachCity[1]['x_coord'], eachCity[1]['y_coord']] for eachCity in tenCities.items()
-                    ]
-                if not bulletin:
-                    print("No disturbances are in any countries.")
-                else:
-                    for item in bulletin:
-                        print("DISTRUBANCE ALERT\n", item)
+                for eachDisturbance in disturbanceDict:
+                    for eachCity in tenCities:
+                        if disturbanceDict[eachDisturbance]['Coords'] == [tenCities[eachCity]['x_coord'], tenCities[eachCity]['y_coord']]:
+                            display = disturbanceDict[eachDisturbance]['Disturbance']
+                            print(f"\nDISTURBANCE ALERT\n{sayDisturbance(display)} \n--GENERAL INFORMATION--\nDisturbance Name: {display[0]} \nDisturbance Intensity: {display[1]} \nDisturbance Travel Speed: {display[2]} \nDisturbance X Coord: {display[3]} \nDisturbance Y Coord: {display[4]}")
+
             case 6:
                 exit()
             case _:
