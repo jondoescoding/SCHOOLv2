@@ -13,62 +13,62 @@ Create a module named caribbean.py that includes the names of up to ten cities f
 tenCities = {
     "Jamaica": {
     "capitalCity": "Kingston",
-    "y_coord": 4,
     "x_coord": 4,
+    "y_coord": 4,
     },
 
     "Haiti":{
     "capitalCity": "Port-Au-Prince",
-    "y_coord": 4,
     "x_coord": 6,
+    "y_coord": 4,
     },
 
     "DR":{
     "capitalCity": "Santo Domingo",
-    "y_coord": 4,
     "x_coord": 7,
+    "y_coord": 4,
     },
 
     "Puerto Rico":{
     "capitalCity": "San Juan",
-    "y_coord": 4,
     "x_coord": 8,
+    "y_coord": 4,
     },
 
     "Cuba":{
     "capitalCity": "Havana",
-    "y_coord": 2,
     "x_coord": 2,
+    "y_coord": 2,
     },
 
     "Bahamas":{
     "capitalCity": "Nassau",
-    "y_coord": 1,
     "x_coord": 4,
+    "y_coord": 1,
     },
 
     "Costa Rica":{
     "capitalCity": "San Jose",
-    "y_coord": 8,
     "x_coord": 1,
+    "y_coord": 8,
     },
 
     "Panama":{
     "capitalCity": "Panama City",
-    "y_coord": 8,
     "x_coord": 3,
+    "y_coord": 8,
     },
 
     "Venezuela":{
     "capitalCity": "Caracas",
-    "y_coord": 8,
     "x_coord": 8,
+    "y_coord": 8,
     },
 
     "Trinidad_Tobago":{
     "capitalCity": "Port Of Spain",
+    "x_coord": 10,
     "y_coord": 8,
-    "x_coord": 8,
     },
 }
 
@@ -188,36 +188,27 @@ def gui():
                 # Append the new disturbance to the disturbanceDict dictionary
                 disturbanceDict[disturbance[0]] = {
                     "Disturbance": disturbance,
-                    "Coords": [disturbance[3], disturbance[4]],
-                    "Ticks": disturbance[2] // 5
+                    "Coords": [disturbance[3], disturbance[4]], # [x = column, y = row]
+                    "Ticks": disturbance[2] // 5,
+                    "Off-Canvas": False # this is this to handle if the disturbance comes off the canvas 
                     }
             case 2:
-
-            # case 2:
-            #     # checks if there is an element inside of the dict
-            #     if disturbanceDict: 
-            #         # Controls the movement of the disturbance
-            #         dx = rand.choice([-1, 0, 1])
-            #         dy = rand.choice([-1, 0, 1])
-            #         for eachDisturbance in disturbanceDict:
-            #             # checks the total amount of ticks within a disturbance
-            #             if disturbanceDict[eachDisturbance]['Ticks'] > 0:
-            #                 # holds the coords from each disturbance 
-            #                 cordsList = disturbanceDict[eachDisturbance]['Coords']
-            #                 # Update the coordinates based on the random choices and ticks
-            #                 updated_x = min(max(cordsList[0] + dx, 0), 13)
-            #                 updated_y = min(max(cordsList[1] + dy, 0), 8)
-            #                 # Update the disturbance with the new coord
-            #                 disturbanceDict[eachDisturbance]['Coords'] = [updated_x, updated_y]
-            #                 # Grabs the total ticks
-            #                 totalTicks = disturbanceDict[eachDisturbance]["Ticks"]
-            #                 # Remove a tick
-            #                 disturbanceDict[eachDisturbance]["Ticks"] = totalTicks - 1
-            #             else:
-            #                 # If ticks are 0 or less, remove the disturbance
-            #                 print("Ticks Completed....Removing disturbance...")
-            #                 disturbanceDict.pop(eachDisturbance)
-            #     else: print("ERROR: Please use option #1 to create a disturbance")
+                if disturbanceDict:
+                    # Controls the movement of the disturbance
+                    for eachDisturbance in disturbanceDict:
+                        cordsList = disturbanceDict[eachDisturbance]['Coords']
+                        if cordsList[0] > 0:
+                            # Update the coordinates based on the random choices and ticks
+                            movement = disturbanceDict[eachDisturbance]['Disturbance'][2] // 5
+                            updated_x = cordsList[0] - movement
+                            disturbanceDict[eachDisturbance]['Coords'] = [updated_x,cordsList[1]]
+                        else:
+                            # If the disturbance has left the caribbean map canvas
+                            print("Disturbance left region...Removing disturbance...")
+                            disturbanceDict[eachDisturbance]['Off-Canvas'] = True
+                            
+                else: 
+                    print("ERROR: No Disturbace Detected. Please use option #1 to create a disturbance")
             case 3:
                 displayDisturbance(disturbanceDict=disturbanceDict)
             case 4:
@@ -227,9 +218,9 @@ def gui():
             case 5:
                 bulletin = [
                     displayDisturbance(disturbanceDict=eachDisturbance) for eachDisturbance in disturbanceDict
-                    if disturbanceDict and any(
-                        disturbanceDict[eachDisturbance]['Coords'] == [eachCity[1]['y_coord'], eachCity[1]['x_coord']] for eachCity in tenCities.items()
-                    )]
+                    if disturbanceDict and 
+                        disturbanceDict[eachDisturbance]['Coords'] == [eachCity[1]['x_coord'], eachCity[1]['y_coord']] for eachCity in tenCities.items()
+                    ]
                 if not bulletin:
                     print("No disturbances are in any countries.")
                 else:
