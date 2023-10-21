@@ -254,11 +254,13 @@ def gui():
                     print(f"\nCountry: {eachCity[0]} \nCity Name: {eachCity[1]['capitalCity']}\nRow Number: {eachCity[1]['y_coord']} \nColumn Number: {eachCity[1]['x_coord']}\n")
             # displays a bulletin for each disturbance
             case 5:
-                for eachDisturbance in disturbanceDict:
-                    for eachCity in tenCities:
-                        if disturbanceDict[eachDisturbance]['Coords'] == [tenCities[eachCity]['x_coord'], tenCities[eachCity]['y_coord']]:
-                            display = disturbanceDict[eachDisturbance]['Disturbance']
-                            print(f"\nDISTURBANCE ALERT\n{sayDisturbance(display)} \n--GENERAL INFORMATION--\nDisturbance Name: {display[0]} \nDisturbance Intensity: {display[1]} \nDisturbance Travel Speed: {display[2]} \nDisturbance X Coord: {display[3]} \nDisturbance Y Coord: {display[4]}")
+                if disturbance:
+                    for eachDisturbance in disturbanceDict:
+                        for eachCity in tenCities:
+                            if disturbanceDict[eachDisturbance]['Coords'] == [tenCities[eachCity]['x_coord'], tenCities[eachCity]['y_coord']]:
+                                display = disturbanceDict[eachDisturbance]['Disturbance']
+                                # Diturbance Information
+                                print(f"\nDISTURBANCE ALERT\n{sayDisturbance(display)} \n--GENERAL INFORMATION--\nDisturbance Name: {display[0]} \nDisturbance Intensity: {display[1]} \nDisturbance Travel Speed: {display[2]} \nDisturbance X Coord: {display[3]} \nDisturbance Y Coord: {display[4]}")
             # exits the program
             case 6:
                 exit()
