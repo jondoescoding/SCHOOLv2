@@ -10,6 +10,7 @@ Task 1: [4 Marks]
 Create a module named caribbean.py that includes the names of up to ten cities from the map along with their coordinates and any other data you may find useful in solving the problem. Your code should demonstrate an understanding of Python built-in data structures.
 """
 
+# Holds the inital list of ten cities which can be amended
 tenCities = {
     "Jamaica": {
     "capitalCity": "Kingston",
@@ -86,13 +87,18 @@ The function makeInitialSpeed that accepts no parameter and shall return a
 random value between 5 and 10 representing the speed in miles per hour at which the tropical disturbance is travelling.
 """
 def makeInitialSpeed():
+    """
+    Outputs a number which is between 5 & 10
+    """
     return rand.randint(5,10)
 
 """
-The function makeInitialRow that accepts no parameter and shall return a 
-random number between 1 and 8 representing the row at which the disturbance starts
+The function makeInitialRow that accepts no parameter and shall return a random number between 1 and 8 representing the row at which the disturbance starts
 """
 def makeInitialRow():
+    """
+    Outputs a random number between 1 and 8
+    """
     return rand.randint(1,8)
 
 
@@ -101,6 +107,10 @@ Task 3: [5 Marks]
 Implement a function named makeDisturbance that accepts the name of a disturbance as its only parameter and returns a tuple of the form: 
 """
 def makeDisturbance(name):
+    """
+    Generates a tuple which houses the:
+    name, intensity, travel_speed, x coords and y coords of a disturbance
+    """
     intensity = makeInitialIntensity()
     travel_speed = makeInitialSpeed()
     x_coordinate = 13
@@ -122,7 +132,7 @@ You may decide what data is returned by this function. However, the string that 
 • Intensity of 157 miles, or above is a category 5 hurricane
 """
 def sayDisturbance(disturbance: tuple) -> str:
-    """_summary_
+    """Calls out the disturbance
 
     Args:
         disturbance (tuple): should accept ONLY tuples from the function makeDistrubance
@@ -164,6 +174,11 @@ def sayDisturbance(disturbance: tuple) -> str:
 """
 
 def makeCities():
+    """Create a new city
+
+    Returns:
+        _type_: returns a dict containing the data on a new city
+    """
     cityName = input("Enter City Name: ")
     capitalCity = input("Enter Capital City: ")
     x_coordinate = input("Enter x coordinate: ")
@@ -183,14 +198,16 @@ def makeCities():
 def gui():
     # Houses all the future disturbances to be created
     disturbanceDict = {}
+    # which option the user will select
     option = 0
     while True:
         option = int(input("\n0. Create A City \n1. Create a new disturbance\n2. Run One Tick\n3. Show All Disturbances\n4. Show All Cities\n5. Display Bulletins\n6. Exit\n\nSelect An option: "))
         match option:
-            #
+            # creates a new city
             case 0:
                 newCity = makeCities()
                 tenCities.update(newCity)
+            # creates a new disturbance
             case 1:
                 disturbance = makeDisturbance(input("\nDisturbance Name: "))
                 # Append the new disturbance to the disturbanceDict dictionary
@@ -201,6 +218,7 @@ def gui():
                     "Off-Canvas": False # this is this to handle if the disturbance comes off the canvas 
                     }
                 print("A disturbance was created!\n")
+            # runs the simulation
             case 2:
                 if disturbanceDict:
                     # Controls the movement of the disturbance
@@ -218,6 +236,7 @@ def gui():
                             
                 else: 
                     print("ERROR: No Disturbace Detected. Please use option #1 to create a disturbance")
+            # prints ALL of the disturnances in the dictionary
             case 3:
                 # checks if there is an entry in the dict
                 if disturbanceDict:
@@ -228,19 +247,22 @@ def gui():
                         # if nothing is found within the dict then a message is printed to alert the user of the error throwm 
                 else: 
                     print("ERROR CASE3: No Disturbances Found (Create a disturbance first)")
+            # prints all of the cities
             case 4:
                 # this iterates over each key in the given dictionary
                 for eachCity in tenCities.items():
                     print(f"\nCountry: {eachCity[0]} \nCity Name: {eachCity[1]['capitalCity']}\nRow Number: {eachCity[1]['y_coord']} \nColumn Number: {eachCity[1]['x_coord']}\n")
+            # displays a bulletin for each disturbance
             case 5:
                 for eachDisturbance in disturbanceDict:
                     for eachCity in tenCities:
                         if disturbanceDict[eachDisturbance]['Coords'] == [tenCities[eachCity]['x_coord'], tenCities[eachCity]['y_coord']]:
                             display = disturbanceDict[eachDisturbance]['Disturbance']
                             print(f"\nDISTURBANCE ALERT\n{sayDisturbance(display)} \n--GENERAL INFORMATION--\nDisturbance Name: {display[0]} \nDisturbance Intensity: {display[1]} \nDisturbance Travel Speed: {display[2]} \nDisturbance X Coord: {display[3]} \nDisturbance Y Coord: {display[4]}")
-
+            # exits the program
             case 6:
                 exit()
+            # captures if the user enters a wrong number
             case _:
                 print("ERROR: Incorrect number chosen. Please pick a number between 1 -> 6")
                 
