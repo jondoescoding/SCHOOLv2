@@ -144,7 +144,7 @@ def sayDisturbance(disturbance: tuple) -> str:
     match disturbance[1]:
         # Intensity under 55 miles per hour is a Tropical Depression 
         case _ as intensity if intensity in range(0, 55):
-            return f"Tropical disturbance {disturbance[0]} has an intensity below 55 miles per hour and classifies as a Tropical Drepression"
+            return f"Tropical disturbance {disturbance[0]} has an intensity below 55 miles per hour and classifies as a Tropical Depression"
         case _ as intensity if intensity in range(55, 74):
             return f"Tropical disturbance {disturbance[0]} has an intensity 55-73 miles per hour and classifies as a Storm"
         case _ as intensity if intensity in range(74, 96):
@@ -259,8 +259,14 @@ def gui():
                         for eachCity in tenCities:
                             if disturbanceDict[eachDisturbance]['Coords'] == [tenCities[eachCity]['x_coord'], tenCities[eachCity]['y_coord']]:
                                 display = disturbanceDict[eachDisturbance]['Disturbance']
-                                # Diturbance Information
-                                print(f"\nDISTURBANCE ALERT\n{sayDisturbance(display)} \n--GENERAL INFORMATION--\nDisturbance Name: {display[0]} \nDisturbance Intensity: {display[1]} \nDisturbance Travel Speed: {display[2]} \nDisturbance X Coord: {display[3]} \nDisturbance Y Coord: {display[4]}")
+                                
+                                # Disturbance Information
+                                print(f"\nDISTURBANCE ALERT\n{sayDisturbance(display)}\nCITY BEING AFFECTED: {tenCities[eachCity]['capitalCity']} \n--GENERAL INFORMATION--\nDisturbance Name: {display[0]} \nDisturbance Intensity: {display[1]} \nDisturbance Travel Speed: {display[2]} \nDisturbance X Coord: {display[3]} \nDisturbance Y Coord: {display[4]}")
+
+                                
+                                
+                else:
+                    print("Create a disturbance")
             # exits the program
             case 6:
                 exit()
